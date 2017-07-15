@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 cat > /etc/nginx/upstream.conf <<EOL
 
 upstream taiga-back {
@@ -19,6 +21,8 @@ mkdir -p /etc/nginx/ssl
 PUBLIC_REGISTER_ENABLED=${PUBLIC_REGISTER_ENABLED:-true}
 API=${API:-/api/v1/}
 DEBUG=${DEBUG:-false}
+TAIGA_LANG=${TAIGA_LANG:-en}
+
 
 cat > /usr/local/taiga/taiga-front-dist/dist/conf.json <<EOL
 
@@ -32,6 +36,7 @@ cat > /usr/local/taiga/taiga-front-dist/dist/conf.json <<EOL
     "defaultLanguage": "en",
     "themes": ["taiga"],
     "defaultTheme": "taiga",
+    "defaultLanguage": "${TAIGA_LANG}",
     "publicRegisterEnabled": ${PUBLIC_REGISTER_ENABLED},
     "feedbackEnabled": true,
     "privacyPolicyUrl": null,
@@ -42,3 +47,5 @@ cat > /usr/local/taiga/taiga-front-dist/dist/conf.json <<EOL
 
 
 EOL
+
+exec "$@"

@@ -1,6 +1,7 @@
-FROM python:3.4
+FROM python:3
 
-MAINTAINER Hylke Visser <htdvisser@gmail.com>
+#MAINTAINER Hylke Visser <htdvisser@gmail.com>
+LABEL maintainer "Sebastian Tabares Amaya <sytabaresa@gmail.com>"
 
 # Install dependencies
 RUN \
@@ -22,11 +23,11 @@ RUN \
   touch /usr/local/taiga/circus.ini
 
 # Add Taiga Configuration
-ADD ./local.py /usr/local/taiga/taiga-back/settings/local.py
+COPY ./local.py /usr/local/taiga/taiga-back/settings/local.py
 
 # Configure and Start scripts
-ADD ./configure /usr/local/taiga/configure
-ADD ./start /usr/local/taiga/start
+COPY ./configure /usr/local/taiga/configure
+COPY ./start /usr/local/taiga/start
 RUN chmod +x /usr/local/taiga/configure /usr/local/taiga/start
 
 VOLUME /usr/local/taiga/media

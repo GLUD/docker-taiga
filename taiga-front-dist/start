@@ -1,5 +1,3 @@
 #!/bin/bash
 
-bash /usr/local/taiga/configure
-
 nginx -g "daemon off;"
