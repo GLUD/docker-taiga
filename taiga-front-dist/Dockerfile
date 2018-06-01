@@ -3,7 +3,7 @@ FROM nginx:alpine
 LABEL maintainer "Sebastian Tabares Amaya <sytabaresa@gmail.com>"
 
 # Install Git
-RUN apk -U --no-progress add git bash
+RUN apk -U --no-progress add git bash nodejs
 
 # NginX Configuration
 COPY nginx.conf /etc/nginx/nginx.conf
@@ -17,6 +17,12 @@ RUN \
   git clone https://github.com/taigaio/taiga-front-dist.git taiga-front-dist && \
   cd taiga-front-dist && \
   git checkout stable
+
+# Github Oauth2 plugin support:
+RUN git clone https://github.com/taigaio/taiga-contrib-github-auth/ && \
+cd taiga-front-dist/dist && mkdir -p plugins && cd plugins && \
+ln -s ../../../taiga-contrib-github-auth/front/dist github-auth && \
+cd github-auth && npm install
 
 # Configuration and Start scripts
 COPY ./configure ./configure

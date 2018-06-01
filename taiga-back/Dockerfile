@@ -8,7 +8,7 @@ RUN \
   apt-get update -qq && \
   apt-get install -y netcat && \
   rm -rf /var/lib/apt/lists/* && \
-  pip install circus gunicorn
+  pip install circus gunicorn 'tornado<5.0'
 
 # Install taiga-back
 RUN \
@@ -21,6 +21,10 @@ RUN \
   pip install -r requirements.txt && \
   touch /usr/local/taiga/taiga-back/settings/dockerenv.py && \
   touch /usr/local/taiga/circus.ini
+
+# Plugins:
+RUN pip install taiga-contrib-github-auth
+
 
 # Add Taiga Configuration
 COPY ./local.py /usr/local/taiga/taiga-back/settings/local.py
